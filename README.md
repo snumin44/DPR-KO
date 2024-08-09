@@ -119,6 +119,12 @@
   -  **Question Encoder**와 **Context Encoder**의 Checkpoint를 서로 다른 경로에 저장됩니다.
 
 ## 3. Implementation
+
+- 우선 DPR-KO 레포지토리를 clone 합니다.
+```
+git clone https://github.com/snumin44/DPR-KO.git
+```
+
 - DPR 모델 학습과 검색 성능 평가에 필요한 라이브러리를 다운로드 합니다.
 - Pytorch, Transformers 등의 필수적인 라이브러리는 이미 설치되어 있다고 가정합니다.
 ```
@@ -127,7 +133,7 @@ pip install -r requirements.txt
 
 ### (1) DPR-KO 학습
 
-※ 이미 학습된 모델을 사용할 경우 생략합니다.
+※ 이미 학습된 모델을 사용할 경우 **'B. DPR 모델 학습'** 을 생략합니다.
 
 #### A. 학습/평가 데이터 셋 구축
 
@@ -136,8 +142,7 @@ pip install -r requirements.txt
 
 #### B. DPR 모델 학습 
 
-- train 디렉토리로 이동한 다음 **'run_train.sh'** 쉘 스크립트를 실행해 학습을 진행합니다.
-- 쉘 스크립트에서 모델이나 구체적인 파라미터를 변경할 수 있습니다. (설명)  
+- train 디렉토리로 이동한 다음 **'run_train.sh'** 를 실행해 학습을 진행합니다. (설명)
 ```
 cd train
 sh run_train.sh
@@ -147,7 +152,42 @@ sh run_train.sh
 
 #### A. 한국어 위키피디아 다운로드
 
+- [한국어 위키피디아 덤프 링크](https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4_%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C)에서 원하는 덤프를 다운로드 한 후 wikidump 디렉토리에 담아줍니다.
+- 실험에는 2024년 7월 23일자의 **kowiki-latest-pages-articles.xml.bz2** 덤프(약 900MB)가 사용되었습니다.
+- 이후 wikidump 디렉토리에서 WikiExtractor를 이용해 덤프를 파싱합니다.
+```
+cd wikidump
+wikiextractor kowiki-latest-pages-articles.xml.bz2 --no-templates
+```
+ 
+#### B. 벡터 DB 구축
 
+- database 디렉토리에서 **'run_generate_embedding.sh'** 를 실행해 Faiss 기반 벡터 DB를 구축합니다. (설명) 
+- pickles 디렉토리가 생성되며 Faiss Index pickle 파일(4.5GB)과 BM25 pickle 파일(1.2GB) 등이 저장됩니다.
+```
+cd database
+sh run_generate_embedding.sh
+```
+
+#### C. 검색 성능 평가
+
+- evaluation 디렉토리에서 **run_evaluate_retrieval.sh** 를 실행해 검색 성능을 평가합니다.
+- 성능 평가가 완료되면 top-k accuracy (k=1,5,10,20,50,100)를 출력합니다.
+```
+cd evaluation
+sh run_evaluate_retrieval.sh
+```
+
+#### D. BM25 모델 학습 (optional)
+
+- **B. 벡터 DB 구축**에서 BM25 모델도 동일한 데이터로 함께 학습됩니다.
+- 하지만 설정 변경으로 인해 함께 학습되지 않았을 경우, utils 디렉토리에서 **train_bm25.sh**를 실행하여 개별적으로 학습할 수 있습니다.
+
+```
+cd utils
+sh train_bm25.sh
+```
+   
 
 
 ## 4. Performance
