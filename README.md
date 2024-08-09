@@ -90,7 +90,7 @@
  
 - 최적의 성능을 위해 Hard Negative 샘플에 대해 손실을 계산할 수 있도록 손실함수를 수정했습니다.
 
-  - Hard Negative 샘플로는 Validation Set에서 가장 높은 BM25 유사도 점수를 지니는 텍스트를 사용합니다. 
+  - Hard Negative 샘플로는 Validation Set에서 가장 높은 **BM25 점수**를 지니는 텍스트를 사용합니다. 
   - SimCSE의 손실함수 코드를 차용해 **'질문-Positive-Hard Negative'** triplet의 손실을 계산합니다. 
   - Hard Negative 샘플을 학습에 사용함으로써 DPR 모델의 검색 성능을 향상시킬 수 있습니다.  
 
@@ -111,7 +111,7 @@
 - 기존의 DPR 코드가 저장하는 모델의 Checkpoint는 **HuggingFace 라이브러리**로 직접 로드하기 어렵습니다.
   
   - 기존의 Checkpoint는 별도의 코드를 이용해 HuggingFace 라이브러리에 맞게 변환해주어야 합니다.
-  - 또한 매 epoch 마다 모델의 Checkpoint가 저장되어 저장 공간에 부담이 될 수 있습니다.   
+  - 또한, 매 epoch 마다 모델의 Checkpoint가 저장되어 저장 공간에 부담이 될 수 있습니다.   
 
 - 이 문제를 해결하기 위해 HuggingFace 라이브러리로 로드할 수 있는 체크포인트를 저장합니다.
 
@@ -119,6 +119,34 @@
   -  **Question Encoder**와 **Context Encoder**의 Checkpoint를 서로 다른 경로에 저장됩니다.
 
 ## 3. Implementation
+- DPR 모델 학습과 검색 성능 평가에 필요한 라이브러리를 다운로드 합니다.
+- Pytorch, Transformers 등의 필수적인 라이브러리는 이미 설치되어 있다고 가정합니다.
+```
+pip install -r requirements.txt
+``` 
+
+### (1) DPR-KO 학습
+
+※ 이미 학습된 모델을 사용할 경우 생략합니다.
+
+#### A. 학습/평가 데이터 셋 구축
+
+- **'data/generate_dataset.ipynb'** 에 따라 위와 같은 구성의 데이터 셋을 직접 구축할 수 있습니다.
+- 실험에는 KorQuad-v1 데이터 셋을 사용했으나 다른 데이터 셋도 형식에 맞춰 사용할 수 있습니다.   
+
+#### B. DPR 모델 학습 
+
+- train 디렉토리로 이동한 다음 **'run_train.sh'** 쉘 스크립트를 실행해 학습을 진행합니다.
+- 쉘 스크립트에서 모델이나 구체적인 파라미터를 변경할 수 있습니다. (설명)  
+```
+cd train
+sh run_train.sh
+```
+
+### (2) 검색 성능 평가
+
+#### A. 한국어 위키피디아 다운로드
+
 
 
 
