@@ -90,14 +90,14 @@
  
 - 최적의 성능을 위해 Hard Negative 샘플에 대해 손실을 계산할 수 있도록 손실함수를 수정했습니다.
 
-  - Hard Negative 샘플은 **BM25 모델**을 통해 Validation Set에서 가장 높은 유사도를 지니는 텍스트를 선택해 사용합니다. 
+  - Hard Negative 샘플로는 Validation Set에서 가장 높은 BM25 유사도 점수를 지니는 텍스트를 사용합니다. 
   - SimCSE의 손실함수 코드를 차용해 **'질문-Positive-Hard Negative'** triplet의 손실을 계산합니다. 
   - Hard Negative 샘플을 학습에 사용함으로써 DPR 모델의 검색 성능을 향상시킬 수 있습니다.  
 
 #### C. BM25 Reranking
 - 기존의 DPR 코드에는 논문에 소개된 BM25를 이용한 **Reranking** 과정이 구현되어 있지 않습니다. 
 
-  - DPR 모델과 BM25 모델 각각 2,000개 텍스트를 검색한 후, 두 스코어를 종합해 최종 순위를 결정하는 방식입니다. 
+  - DPR 모델과 BM25 모델 각각 2,000개 텍스트를 검색한 후, 두 점수를 종합해 순위를 결정하는 방식입니다. 
   - 논문에서는 Dev set(Validation set)으로 학습한 [Apache Lucene](https://lucene.apache.org/)의 BM25 모델을 이용했습니다.
   - Apache Lucene은 java 기반이기 때문에 파이썬에서 사용하려면 PyLucene을 설치해야 합니다. 
 
