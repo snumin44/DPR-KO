@@ -93,7 +93,7 @@
 
 
 #### C. BM25 Reranking
-- 기존의 DPR 코드에는 논문에 소개된 BM25를 이용한 **Reranking** 과정이 구현되어 있지 않습니다. 
+- 기존의 DPR 코드에는 [논문](https://aclanthology.org/2020.emnlp-main.550/)에 소개된 BM25를 이용한 **Reranking** 과정이 구현되어 있지 않습니다. 
 
   - DPR 모델과 BM25 모델 각각 2,000개 텍스트를 검색한 후, 두 점수를 종합해 순위를 결정하는 방식입니다. 
   - 논문에서는 Dev set(Validation set)으로 학습한 [Apache Lucene](https://lucene.apache.org/)의 BM25 모델을 이용했습니다.
@@ -102,7 +102,7 @@
 - **DPR-KO** 에서는 단순한 구성의 **rank_bm25** 라이브러리 이용해 Reranking 과정을 구현했습니다.
 
   - DPR 모델로 먼저 2,000개의 텍스트를 검색한 후, 그 텍스트를 대상으로 Reranking을 수행하는 방식입니다.  
-  - 논문과 달리 cheating을 고려할 필요가 없으므로 **전체 코퍼스**의 텍스트를 학습합니다.
+  - 논문과 달리 cheating 문제를 고려할 필요가 없으므로 **전체 코퍼스**의 텍스트를 학습합니다.
   - 이상의 Reranking 방식을 통해 검색 성능을 비약적으로 향상시킬 수 있습니다.
     
 #### D. Checkpoint 저장
@@ -215,6 +215,11 @@ sh train_bm25.sh
 ※ BM25 모델은 위키피디아 덤프의 모든 텍스트로 학습한 모델입니다.        
 ※ BM25 모델만의 성능을 평가하는 코드는 구현되어 있지 않습니다.
 
+- 해당 모델의 Checkpoint는 다음과 같습니다.
+  
+  - **Question Encoder**: [https://huggingface.co/snumin44/biencoder-ko-bert-question](https://huggingface.co/snumin44/biencoder-ko-bert-question)
+  - **Context Encoder**: [https://huggingface.co/snumin44/biencoder-ko-bert-context](https://huggingface.co/snumin44/biencoder-ko-bert-context)
+
 &nbsp;
 ## 5. Example
 
@@ -224,3 +229,26 @@ cd example
 sh run_semantic_search.sh
 ```
 
+## Citing
+```
+@article{lim2019korquad1,
+  title={Korquad1. 0: Korean qa dataset for machine reading comprehension},
+  author={Lim, Seungyoung and Kim, Myungji and Lee, Jooyoul},
+  journal={arXiv preprint arXiv:1909.07005},
+  year={2019}
+}
+@article{karpukhin2020dense,
+  title={Dense Passage Retrieval for Open-Domain Question Answering},
+  author={Vladimir Karpukhin, Barlas Oğuz, Sewon Min, Patrick Lewis, Ledell Wu, Sergey Edunov, Danqi Chen, Wen-tau Yih},
+  journal={Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year={2020}
+}
+@misc{park2021klue,
+      title={KLUE: Korean Language Understanding Evaluation},
+      author={Sungjoon Park and Jihyung Moon and Sungdong Kim and Won Ik Cho and Jiyoon Han and Jangwon Park and Chisung Song and Junseong Kim and Yongsook Song and Taehwan Oh and Joohong Lee and Juhyun Oh and Sungwon Lyu and Younghoon Jeong and Inkwon Lee and Sangwoo Seo and Dongjun Lee and Hyunwoo Kim and Myeonghwa Lee and Seongbo Jang and Seungwon Do and Sunkyoung Kim and Kyungtae Lim and Jongwon Lee and Kyumin Park and Jamin Shin and Seonghyun Kim and Lucy Park and Alice Oh and Jungwoo Ha and Kyunghyun Cho},
+      year={2021},
+      eprint={2105.09680},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
