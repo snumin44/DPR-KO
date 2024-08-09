@@ -55,7 +55,7 @@
 - 위키 피디아 덤프를 이용한 검색 성능 평가는 **'위키피디아 덤프 + Valiation Set'** 환경에서 이루어집니다.
   - 위키 피디아 덤프의 텍스트는 Validation Set의 마지막 인덱스보다 큰 수를 차례로 인덱스로 부여 받습니다.
   - 위키 피디아 덤프를 인코딩 하는 과정에서 Validation Set의 제목(title)과 일치하는 텍스트는 삭제됩니다.
-  - 이후 Validation Set의 질문이 주어지면 **전체 코퍼스**에서 대응하는 텍스트를 추출하는 방식으로 평가를 진행합니다.
+  - **전체 코퍼스**에서 Validation Set의 질문에 대응하는 텍스트를 추출하는 방식으로 평가를 진행합니다.
   
 #### B. Hard Negative 손실 계산
 - 기존의 DPR 코드의 [손실함수](https://github.com/facebookresearch/DPR/blob/main/dpr/models/biencoder.py#L254)는 **Hard Negative** 샘플에 대한 손실을 계산하지 않습니다.
@@ -108,13 +108,18 @@
   - 이상의 Reranking 방식을 통해 검색 성능을 비약적으로 향상시킬 수 있습니다.
     
 #### D. Checkpoint 저장
-- 기존의 DPR 코드가 저장하는 모델의 Checkpoint는 **Huggingface 라이브러리**로 직접 로드하기 어렵습니다.
+- 기존의 DPR 코드가 저장하는 모델의 Checkpoint는 **HuggingFace 라이브러리**로 직접 로드하기 어렵습니다.
   
-  - 별도의 코드를 이용해 HuggingFace 라이브러리에 맞게 변환해주어야 합니다.
+  - 기존의 Checkpoint는 별도의 코드를 이용해 HuggingFace 라이브러리에 맞게 변환해주어야 합니다.
   - 또한 매 epoch 마다 모델의 Checkpoint가 저장되어 저장 공간에 부담이 될 수 있습니다.   
 
-- 이 문제를 해결하기 위해 
+- 이 문제를 해결하기 위해 HuggingFace 라이브러리로 로드할 수 있는 체크포인트를 저장합니다.
+
+  -  매 epoch 마다 검색 성능을 평가하고 가장 좋은 성능의 Checkpoint를 저장합니다.
+  -  **Question Encoder**와 **Context Encoder**의 Checkpoint를 서로 다른 경로에 저장됩니다.
 
 ## 3. Implementation
+
+
 
 ## 4. Performance
