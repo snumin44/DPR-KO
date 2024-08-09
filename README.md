@@ -4,6 +4,7 @@
 - 한국어 위키피디아 덤프를 이용해 모델의 검색 성능을 평가할 수 있습니다.
 - [Facebook의 DPR 코드](https://github.com/facebookresearch/DPR)와는 다른 구성입니다. 몇 가지 문제점을 해결하기 위해 새롭게 코드를 작성했습니다.      
 
+&nbsp;
 ## 1. Dense Passage Retrieval
 
 &nbsp; <img src="images/dpr_structure.PNG" width="400" height="240" alt="DPR">
@@ -19,6 +20,7 @@
 
 - 이상의 방법으로 학습된 두 인코더를 이용해 **질문과 유사도가 가장 큰 텍스트**를 추출할 수 있습니다.               
 
+&nbsp;
 ## 2. DPR-KO
 - **DPR-KO**는 위의 구조와 학습 방법론을 차용했으나 전혀 다른 코드로 이루어져 있습니다.
 - 특히 다음과 같은 부분에서 Facebook이 공개한 기존의 DPR과 다릅니다. 
@@ -28,6 +30,12 @@
 
   - 질문 "2024년 올림픽이 열린 도시는?"에 대해 "파리"라는 단어가 있는 텍스트는 올바른 텍스트로 간주됩니다.
   - 이로 인해 **단답형 정답이 없는 데이터 셋**은 기존의 DPR 코드로 학습하기 어렵습니다.
+
+- 이 문제를 해결하기 위해 **Validation Set의 텍스트(gold passage)** 를 찾는 방식으로 평가 방법을 수정했습니다.
+  - 아래 예시에서처럼 질문에 대응하는 텍스트(positive_ctx)는 모두 **고유한 인덱스**를 갖습니다.
+  - 평가시 질문의 정답 인덱스(answer_idx)에 포함된 인덱스를 지니는 텍스트만 정답으로 간주됩니다.
+  - 학습 과정에서의 검색 성능 평가는 Validation Set의 질문과 텍스트만으로 이루어집니다.
+  - 이상의 방법으로 정답이 없는 **'질문-텍스트'** 구성의 데이터 셋으로도 DPR 모델을 학습할 수 있습니다.
 
 ```jsonc
 # DPR-KO 학습/평가 데이터 예시
@@ -45,13 +53,6 @@
    'idx': 2}],
  'answer_idx': [0, 1, 2]}
 ```
-
-- 이 문제를 해결하기 위해 **Validation Set의 텍스트(gold passage)** 를 찾는 방식으로 평가 방법을 수정했습니다.
-  - 위 예시에서처럼 질문에 대응하는 텍스트(positive_ctx)는 모두 **고유한 인덱스**를 갖습니다.
-  - 평가시 질문의 정답 인덱스(answer_idx)에 포함된 인덱스를 지니는 텍스트만 정답으로 간주됩니다.
-  - 학습 과정에서의 검색 성능 평가는 Validation Set의 질문과 텍스트만으로 이루어집니다.
-  - 이상의 방법으로 정답이 없는 **'질문-텍스트'** 구성의 데이터 셋으로도 DPR 모델을 학습할 수 있습니다.
-
 - 위키 피디아 덤프를 이용한 검색 성능 평가는 **'위키피디아 덤프 + Valiation Set'** 환경에서 이루어집니다.
   - 위키 피디아 덤프의 텍스트는 Validation Set의 마지막 인덱스보다 큰 수를 차례로 인덱스로 부여 받습니다.
   - 위키 피디아 덤프를 인코딩 하는 과정에서 Validation Set의 제목(title)과 일치하는 텍스트는 삭제됩니다.
@@ -59,9 +60,11 @@
   
 #### B. Hard Negative 손실 계산
 - 기존의 DPR 코드의 [손실함수](https://github.com/facebookresearch/DPR/blob/main/dpr/models/biencoder.py#L254)는 **Hard Negative** 샘플에 대한 손실을 계산하지 않습니다.
-  
-  - 학습 과정에서 Hard Negative 샘플을 사용하지 않으면 최적의 성능을 내기 어렵습니다.
-    
+- 최적의 성능을 위해 Hard Negative 샘플에 대해 손실을 계산할 수 있도록 손실함수를 수정했습니다.
+
+  - Hard Negative 샘플로는 Validation Set에서 가장 높은 **BM25 점수**를 지니는 텍스트를 사용합니다. 
+  - SimCSE의 손실함수 코드를 차용해 **'질문-Positive-Hard Negative'** triplet의 손실을 계산합니다. 
+  - Hard Negative 샘플을 학습에 사용함으로써 DPR 모델의 검색 성능을 향상시킬 수 있습니다.  
 ```jsonc
 # DPR-KO 학습/평가 데이터 예시 (with Hard Negative)
 
@@ -87,12 +90,7 @@
    'text': '아우둠블라의 젖통에서 우유가 네 줄기의 강을 이루며 흘렀고, 위미르는 그 우유를 먹었다. 강글레리는 그 암소는 무엇을 먹었냐고 묻는다. 높으신 분은 암소는 소금기 있는 얼음 덩어리를 핥았다고 답한다.',
    'idx': 29114}]}
 ```
- 
-- 최적의 성능을 위해 Hard Negative 샘플에 대해 손실을 계산할 수 있도록 손실함수를 수정했습니다.
 
-  - Hard Negative 샘플로는 Validation Set에서 가장 높은 **BM25 점수**를 지니는 텍스트를 사용합니다. 
-  - SimCSE의 손실함수 코드를 차용해 **'질문-Positive-Hard Negative'** triplet의 손실을 계산합니다. 
-  - Hard Negative 샘플을 학습에 사용함으로써 DPR 모델의 검색 성능을 향상시킬 수 있습니다.  
 
 #### C. BM25 Reranking
 - 기존의 DPR 코드에는 논문에 소개된 BM25를 이용한 **Reranking** 과정이 구현되어 있지 않습니다. 
@@ -116,8 +114,9 @@
 - 이 문제를 해결하기 위해 HuggingFace 라이브러리로 로드할 수 있는 체크포인트를 저장합니다.
 
   -  매 epoch 마다 검색 성능을 평가하고 가장 좋은 성능의 Checkpoint를 저장합니다.
-  -  **Question Encoder**와 **Context Encoder**의 Checkpoint를 서로 다른 경로에 저장됩니다.
+  -  **Question Encoder**와 **Context Encoder**의 Checkpoint는 서로 다른 경로에 저장됩니다.
 
+&nbsp;
 ## 3. Implementation
 
 - 우선 DPR-KO 레포지토리를 clone 합니다.
@@ -188,7 +187,8 @@ sh run_evaluate_retrieval.sh
 cd utils
 sh train_bm25.sh
 ```
-   
+
+&nbsp;
 ## 4. Performance
 
 - 기본적인 모델 학습 및 평가 환경은 다음과 같습니다.
@@ -212,5 +212,15 @@ sh train_bm25.sh
 |Top50 Acc|68.46 |87.03 |94.86 |
 |Top100 Acc|72.48 |90.23 |96.02 |
 
-※ 위키피디아 덤프의 모든 텍스트로 학습한 BM25 모델입니다.        
-※ 
+※ BM25 모델은 위키피디아 덤프의 모든 텍스트로 학습한 모델입니다.        
+※ BM25 모델만의 성능을 평가하는 코드는 구현되어 있지 않습니다.
+
+&nbsp;
+## 5. Example
+
+- **'run_semantic_search.sh'** 를 실행해 Semantic Search를 직접 테스트해 볼 수 있습니다. 
+```
+cd example
+sh run_semantic_search.sh
+```
+
