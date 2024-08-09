@@ -133,7 +133,8 @@ pip install -r requirements.txt
 
 ### (1) DPR-KO 학습
 
-※ 이미 학습된 모델을 사용할 경우 **'B. DPR 모델 학습'** 을 생략합니다.
+※ 이미 학습된 모델을 사용할 경우 **'B. DPR 모델 학습'** 을 생략합니다.              
+※ 이하 모든 쉘 스크립트(.sh)는 **1개의 GPU**를 사용한다고 가정하고 작성되었습니다.            
 
 #### A. 학습/평가 데이터 셋 구축
 
@@ -153,7 +154,7 @@ sh run_train.sh
 #### A. 한국어 위키피디아 다운로드
 
 - [한국어 위키피디아 덤프 링크](https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4_%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C)에서 원하는 덤프를 다운로드 한 후 wikidump 디렉토리에 담아줍니다.
-- 실험에는 2024년 7월 23일자의 **kowiki-latest-pages-articles.xml.bz2** 덤프(약 900MB)가 사용되었습니다.
+- 실험에는 2024년 7월 23일자의 **'kowiki-latest-pages-articles.xml.bz2'** 덤프(약 900MB)가 사용되었습니다.
 - 이후 wikidump 디렉토리에서 WikiExtractor를 이용해 덤프를 파싱합니다.
 ```
 cd wikidump
@@ -171,7 +172,7 @@ sh run_generate_embedding.sh
 
 #### C. 검색 성능 평가
 
-- evaluation 디렉토리에서 **run_evaluate_retrieval.sh** 를 실행해 검색 성능을 평가합니다.
+- evaluation 디렉토리에서 **'run_evaluate_retrieval.sh'** 를 실행해 검색 성능을 평가합니다.
 - 성능 평가가 완료되면 top-k accuracy (k=1,5,10,20,50,100)를 출력합니다.
 ```
 cd evaluation
@@ -180,14 +181,36 @@ sh run_evaluate_retrieval.sh
 
 #### D. BM25 모델 학습 (optional)
 
-- **B. 벡터 DB 구축**에서 BM25 모델도 동일한 데이터로 함께 학습됩니다.
-- 하지만 설정 변경으로 인해 함께 학습되지 않았을 경우, utils 디렉토리에서 **train_bm25.sh**를 실행하여 개별적으로 학습할 수 있습니다.
+- **'B. 벡터 DB 구축'** 에서 BM25 모델도 동일한 데이터로 함께 학습됩니다.
+- 하지만 설정 변경으로 인해 함께 학습되지 않았을 경우, utils 디렉토리에서 **'train_bm25.sh'** 를 실행하여 개별적으로 학습할 수 있습니다.
 
 ```
 cd utils
 sh train_bm25.sh
 ```
    
-
-
 ## 4. Performance
+
+- 기본적인 모델 학습 및 평가 환경은 다음과 같습니다.
+  
+  - 베이스 모델: klue/bert-base
+  - 데이터 셋: KorQuad v1
+  - 위키 덤프: kowiki-latest-pages-articles.xml.bz2 (2024/07/23)
+  - 청크 당 문장: 5
+  - 전체 청크: 약 160 만 개
+  - BM25 가중치: 0.3 
+  - 1 A100 GPU
+
+- 평가 결과는 다음과 같습니다.
+
+|(%)|BM25 (w/o DPR-KO)|DPR-KO (w/o BM25)|DPR-KO (with BM25)|
+|:---:|:---:|:---:|:---:|
+|Top1 Acc|36.25 |48.98 |71.16 |
+|Top5 Acc|51.61 |71.16 |86.75 |
+|Top10 Acc|57.34 |77.05 |90.28 |
+|Top20 Acc|62.40 |82.09 |92.66 |
+|Top50 Acc|68.46 |87.03 |94.86 |
+|Top100 Acc|72.48 |90.23 |96.02 |
+
+※ 위키피디아 덤프의 모든 텍스트로 학습한 BM25 모델입니다.        
+※ 
