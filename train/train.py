@@ -102,10 +102,7 @@ def argument_parser():
                        )   
     parser.add_argument('--amp', action="store_true",
                         help='Use Automatic Mixed Precision for training'
-                       ) 
-    parser.add_argument('--eval_step', default=100, type=int,
-                        help='Evaluaton interval when eval_strategy is set to <steps>'
-                       )   
+                       )
     parser.add_argument('--device', default = 'cuda' if torch.cuda.is_available() else 'cpu', type=str,
                         help = 'Choose a type of device for training'
                        )
