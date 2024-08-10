@@ -145,7 +145,7 @@ pip install -r requirements.txt
 
 #### B. DPR 모델 학습 
 
-- train 디렉토리로 이동한 다음 **'run_train.sh'** 를 실행해 학습을 진행합니다. (설명)
+- train 디렉토리로 이동한 다음 **'run_train.sh'** 를 실행해 학습을 진행합니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/train)
 ```
 cd train
 sh run_train.sh
@@ -165,7 +165,7 @@ wikiextractor kowiki-latest-pages-articles.xml.bz2 --no-templates
  
 #### B. 벡터 DB 구축
 
-- database 디렉토리에서 **'run_generate_embedding.sh'** 를 실행해 Faiss 기반 벡터 DB를 구축합니다. (설명) 
+- database 디렉토리에서 **'run_generate_embedding.sh'** 를 실행해 Faiss 기반 벡터 DB를 구축합니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/database) 
 - pickles 디렉토리가 생성되며 Faiss Index pickle 파일(4.5GB)과 BM25 pickle 파일(1.2GB) 등이 저장됩니다.
 ```
 cd database
@@ -174,7 +174,7 @@ sh run_generate_embedding.sh
 
 #### C. 검색 성능 평가
 
-- evaluation 디렉토리에서 **'run_evaluate_retrieval.sh'** 를 실행해 검색 성능을 평가합니다.
+- evaluation 디렉토리에서 **'run_evaluate_retrieval.sh'** 를 실행해 검색 성능을 평가합니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/evaluation)
 - 성능 평가가 완료되면 top-k accuracy (k=1,5,10,20,50,100)를 출력합니다.
 ```
 cd evaluation
@@ -184,8 +184,7 @@ sh run_evaluate_retrieval.sh
 #### D. BM25 모델 학습 (optional)
 
 - **'B. 벡터 DB 구축'** 에서 BM25 모델도 동일한 데이터로 함께 학습됩니다.
-- 하지만 설정 변경으로 인해 함께 학습되지 않았을 경우, utils 디렉토리에서 **'train_bm25.sh'** 를 실행하여 개별적으로 학습할 수 있습니다.
-
+- 하지만 설정 변경으로 인해 함께 학습되지 않았을 경우, utils 디렉토리에서 **'train_bm25.sh'** 를 실행하여 개별적으로 학습할 수 있습니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/utils)
 ```
 cd utils
 sh train_bm25.sh
