@@ -67,7 +67,7 @@ def argument_parser():
                        )
 
     # Train config    
-    parser.add_argument('--epochs', default=1, type=int,
+    parser.add_argument('--epochs', default=15, type=int,
                         help='Training epochs'
                        )      
     parser.add_argument('--eval_epoch', default=1, type=int,
