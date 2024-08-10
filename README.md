@@ -137,7 +137,10 @@ pip install -r requirements.txt
 
 #### A. 학습/평가 데이터 셋 구축
 
-- **'data/generate_dataset.ipynb'** 에 따라 위와 같은 구성의 데이터 셋을 직접 구축할 수 있습니다.
+- 다음과 같은 데이터 셋 구축 가이드에 따라 위와 같은 구성의 데이터 셋을 직접 만들 수 있습니다.
+  - 단답형 정답이 없는 데이터 셋: **'data/generate_dataset_koalpaca.ipynb'**
+  - 단답형 정답이 있는 데이터 셋: **'data/generate_dataset_korquad.ipynb'**
+
 - 실험에는 KorQuad-v1 데이터 셋을 사용했으나 다른 데이터 셋도 형식에 맞춰 사용할 수 있습니다.   
 
 #### B. DPR 모델 학습 
@@ -223,7 +226,8 @@ sh train_bm25.sh
 &nbsp;
 ## 5. Example
 
-- **'run_semantic_search.sh'** 를 실행해 Semantic Search를 직접 테스트해 볼 수 있습니다. 
+- **'run_semantic_search.sh'** 를 실행해 Semantic Search를 직접 테스트해 볼 수 있습니다.
+- 학습된 모델과 이 모델로 구축한 벡터 DB가 필요합니다.  
 ```
 cd example
 sh run_semantic_search.sh
