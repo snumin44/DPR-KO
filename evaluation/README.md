@@ -14,4 +14,3 @@ evaluate_retrieval.py 의 하이퍼 파라미터는 다음과 같습니다.
 |max_length|Question Encoder 토크나이저의 **최대 토큰의 개수**입니다. BERT 모델의 최대 토큰 개수인 512 가 기본값으로 설정되어 있습니다.|
 |batch_size|Question Encoder에 전달하는 데이터로 구성된 **배치의 크기**입니다. 64가 기본값으로 설정되어 있습니다.|
 |device|'torch.cuda.is_available()'의 값에 따라 사용할 **장치(gpu/cpu)** 를 결정합니다. 여러 대의 gpu를 사용할 경우 쉘 스크립트에서 GPU가 명시된 부분을 수정해야 합니다.|
-|random_seed|실행 결과를 고정하기 위한 **랜덤 시드**로, 42가 기본값으로 설정되어 있습니다.|
