@@ -223,9 +223,9 @@ sh train_bm25.sh
   - **Context Encoder**: [https://huggingface.co/snumin44/biencoder-ko-bert-context](https://huggingface.co/snumin44/biencoder-ko-bert-context)
 
 &nbsp;
-## 5. Example
+## 5. Example (작성 중)
 
-- **'run_semantic_search.sh'** 를 실행해 Semantic Search를 직접 테스트해 볼 수 있습니다.
+- **'run_semantic_search.sh'** 를 실행해 Semantic Search를 직접 테스트해 볼 수 있습니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/example)
 - 학습된 모델과 이 모델로 구축한 벡터 DB가 필요합니다.  
 ```
 cd example
