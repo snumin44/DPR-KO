@@ -3,7 +3,7 @@
 
 |Hyper Parameter|설명|
 |---|---|
-|model|베이스 모델의 경로입니다. HuggingFace의 모델 명을 입력하면 됩니다.|
+|model|**베이스 모델**의 경로입니다. HuggingFace의 모델 명을 입력하면 됩니다.|
 |train_data|학습에 사용하는 검증 **Train Set** 의 경로입니다. 모델을 학습하기 위해 반드시 입력해주어야 합니다.|
 |valid_data|평가에 사용하는 검증 **Validation Set** 의 경로입니다. 학습 과정에서 검색 성능을 평가하기 위해 반드시 입력해주어야 합니다.|
 |q_output_path|**Question Encoder**가 저장되는 경로입니다. '../pretrained_model/question_encoder'가 기본값으로 설정되어 있습니다.|
