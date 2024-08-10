@@ -22,7 +22,7 @@ def argument_parser():
                         help='Path of faiss pickle'
                        )
     parser.add_argument('--context_path', type=str, required=True,
-                        help='Path of faiss pickle'
+                        help='Path of context pickle'
                        )
     parser.add_argument('--bm25_path', type=str, required=False,
                         help='Path of BM25 Model'
