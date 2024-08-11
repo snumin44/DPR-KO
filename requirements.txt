@@ -1,0 +1,5 @@
+nltk
+faiss-gpu
+rank_bm25
+wikiextractor
+datasets
