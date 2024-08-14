@@ -4,4 +4,4 @@ python3 bm25.py \
     --save_path './bm25_model_wiki'\
     --num_sent 5 \
     --overlap 0 \
-    --cpu_workers 40 \
+    --cpu_workers 40
