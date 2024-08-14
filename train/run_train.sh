@@ -14,4 +14,4 @@ CUDA_VISIBLE_DEVICES=$GPU_ID python3 train.py \
         --max_length 512 \
         --dropout 0.1 \
         --pooler 'cls' \
-        --amp \
+        --amp
