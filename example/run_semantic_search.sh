@@ -12,4 +12,4 @@ CUDA_VISIBLE_DEVICES=$GPU_ID python3 semantic_search.py \
         --bm25_weight 0.3 \
         --search_k 2000 \
         --return_k 5 \
-        --pooler 'cls' \
+        --pooler 'cls'
