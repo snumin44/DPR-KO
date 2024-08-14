@@ -16,7 +16,7 @@ def argument_parser():
     parser = argparse.ArgumentParser(description='get topk-accuracy of retrieval model')
     
     parser.add_argument('--model', type=str, required=True,
-                        help='Path of validation dataset'
+                        help='Directory of pretrained encoder model'
                        )
     parser.add_argument('--faiss_path', type=str, required=True,
                         help='Path of faiss pickle'
