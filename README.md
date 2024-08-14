@@ -223,14 +223,35 @@ sh train_bm25.sh
   - **Context Encoder**: [https://huggingface.co/snumin44/biencoder-ko-bert-context](https://huggingface.co/snumin44/biencoder-ko-bert-context)
 
 &nbsp;
-## 5. Example (작성 중)
+## 5. Example
 
-- **'run_semantic_search.sh'** 를 실행해 Semantic Search를 직접 테스트해 볼 수 있습니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/example)
-- 학습된 모델과 이 모델로 구축한 벡터 DB가 필요합니다.  
+#### A. Semantic Search
+
+- **'run_semantic_search.sh'** 를 실행해 Semantic Search를 직접 시험해 볼 수 있습니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/example)
 ```
 cd example
 sh run_semantic_search.sh
 ```
+
+&nbsp; <img src="images/search_example.gif" width="480" height="180" alt="semantic searche example">
+
+- 위 예시에서 가장 높은 순위의 텍스트는 다음과 같습니다.
+```
+연세대학교(延世大學校, )는 1885년에 설립된 대한민국의 개신교 계통 사립 대학이다. 약칭으로 연대(延大)라고 불 린다. \
+서울특별시 서대문구의 신촌캠퍼스와 강원특별자치도 원주시에 위치한 미래캠퍼스, 인천광역시에 위치한 국제캠퍼스/ 삼애캠퍼스로 이루어져 있다. \
+학교법인 연세대학교에 의해 운영되고 있으며, 24개의 단과대학, 2개 학부, 20개의 대학원으로 구성된다. 현재(제20대) 총장은 연세대학교 의학과를 졸업한 윤동섭이다.
+```
+
+#### B. Retrieval Augmented Generation
+
+- **'run_generation.sh'** 를 실행해 Retrieval Augmented Generation(RAG)를 직접 시험해 볼 수 있습니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/example)
+- 생성모델([KoAlpaca-5.8b](https://huggingface.co/beomi/KoAlpaca-Polyglot-5.8B))이 위의 가장 높은 순위의 문서를 참고해 대답을 생성했음을 확인할 수 있습니다.  
+```
+cd example
+sh run_generation.sh
+```
+
+&nbsp; <img src="images/rag_example.gif" width="480" height="180" alt="rag example">
 
 ## Citing
 ```
