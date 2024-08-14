@@ -11,5 +11,5 @@ CUDA_VISIBLE_DEVICES=$GPU_ID python3 semantic_search.py \
         --faiss_weight 1 \
         --bm25_weight 0.3 \
         --search_k 2000 \
-        --return_k 5 \
+        --return_k 20 \
         --pooler 'cls'
