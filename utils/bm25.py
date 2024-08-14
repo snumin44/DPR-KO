@@ -59,6 +59,7 @@ class BM25Reranker(object):
             self._load_bm25_pickle(bm25_pickle)
 
     def _load_bm25_pickle(self, bm25_pickle):
+        print('>>> Loading BM25 model.')
         with open(bm25_pickle, 'rb') as file:
             self.model = pickle.load(file)
 
