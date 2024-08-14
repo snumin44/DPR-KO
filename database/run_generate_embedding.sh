@@ -15,4 +15,4 @@ CUDA_VISIBLE_DEVICES=$GPU_ID python3 generate_embedding.py \
         --overlap 0 \
         --max_length 512 \
         --batch_size 128 \
-        --cpu_workers 50 \
+        --cpu_workers 50
