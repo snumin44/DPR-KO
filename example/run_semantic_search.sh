@@ -3,7 +3,7 @@
 # If you wanna use more gpus, set GPU_ID like "0, 1, 2"
 
 GPU_ID=0
-CUDA_VISIBLE_DEVICES=$GPU_ID python3 inference.py \
+CUDA_VISIBLE_DEVICES=$GPU_ID python3 semantic_search.py \
     	--model '../pretrained_model/question_encoder' \
         --faiss_path '../pickles/faiss_pickle.pkl' \
         --context_path '../pickles/context_pickle.pkl' \
