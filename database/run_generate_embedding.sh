@@ -8,7 +8,7 @@ CUDA_VISIBLE_DEVICES=$GPU_ID python3 generate_embedding.py \
         --wiki_path '../wikidump/text' \
         --valid_data '../data/korquad_v1_valid.json' \
         --save_path '../pickles' \
-        --save_text \
+        --save_context \
         --train_bm25 \
         --pooler 'cls' \
         --num_sent 5 \
