@@ -11,4 +11,4 @@ CUDA_VISIBLE_DEVICES=$GPU_ID python3 evaluate_retrieval.py \
         --faiss_weight 1 \
         --bm25_weight 0.3 \
         --search_k 2000 \
-        --pooler 'cls' \
+        --pooler 'cls'
