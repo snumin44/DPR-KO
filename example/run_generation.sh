@@ -14,5 +14,5 @@ CUDA_VISIBLE_DEVICES=$GPU_ID python3 generation.py \
         --bm25_weight 0.3 \
         --search_k 2000 \
         --return_k 3 \
-        --pooler 'cls' \
+        --pooler 'cls'
         
