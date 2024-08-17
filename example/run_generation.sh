@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # If you wanna use more gpus, set GPU_ID like "0, 1, 2"
-# --bm25_path '../pickles/bm25_pickle.pkl' \
 
 GPU_ID="0, 1, 2"
 CUDA_VISIBLE_DEVICES=$GPU_ID python3 generation.py \
