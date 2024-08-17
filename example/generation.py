@@ -63,9 +63,6 @@ def argument_parser():
     parser.add_argument('--max_new_tokens', default=128, type=int,
                         help='The maximum numbers of tokens to generate'
                        )
-    parser.add_argument('--num_beams', default=5, type=int,
-                        help='Number of beams for beam search. 1 means no beam search.'
-                       )
     parser.add_argument('--do_sample', action='store_true', default=False,
                         help='Whether or not to use sampling'
                        )
@@ -137,7 +134,6 @@ class Generator(object):
             pad_token_id= self.tokenizer.eos_token_id,
             
             max_new_tokens=max_new_tokens,
-            num_beams = num_beams,
             do_sample= do_sample,
             temperature=temperature,
             top_k = top_k,
@@ -194,7 +190,7 @@ def main(args):
         
         prompt = g_decoder.PROMPT.format(input_text, ' '.join(retrieved_text))
         
-        g_decoder.generate(prompt, args.max_new_tokens, args.num_beams, args.do_sample, args.temperature, args.top_k, args.top_p)
+        g_decoder.generate(prompt, args.max_new_tokens, args.do_sample, args.temperature, args.top_k, args.top_p)
         print()
         print(f"※ 참고문헌: 위키피디아 \'{retrieved_title[0]}\' 등")
         print()
