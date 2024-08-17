@@ -63,7 +63,7 @@ def argument_parser():
     parser.add_argument('--max_new_tokens', default=128, type=int,
                         help='The maximum numbers of tokens to generate'
                        )
-    parser.add_argument('--num_beams', default=128, type=int,
+    parser.add_argument('--num_beams', default=5, type=int,
                         help='Number of beams for beam search. 1 means no beam search.'
                        )
     parser.add_argument('--do_sample', action='store_true', default=False,
