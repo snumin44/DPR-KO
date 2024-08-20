@@ -245,7 +245,8 @@ sh run_semantic_search.sh
 #### B. Retrieval Augmented Generation
 
 - **'run_generation.sh'** 를 실행해 Retrieval Augmented Generation(RAG)를 직접 시험해 볼 수 있습니다. [(설명)](https://github.com/snumin44/DPR-KO/tree/main/example)
-- 생성모델([KoAlpaca-5.8b](https://huggingface.co/beomi/KoAlpaca-Polyglot-5.8B))이 위의 가장 높은 순위의 문서를 참고해 대답을 생성했음을 확인할 수 있습니다.  
+- 생성모델([KoAlpaca-5.8b](https://huggingface.co/beomi/KoAlpaca-Polyglot-5.8B))이 위의 가장 높은 순위의 문서를 참고해 대답을 생성했음을 확인할 수 있습니다.
+- (주어진 예시처럼 Streamer를 이용하려면 HuggingFace 버전을 업그레이드 해야 할 수 있습니다.) 
 ```
 cd example
 sh run_generation.sh
