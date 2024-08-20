@@ -126,6 +126,7 @@ git clone https://github.com/snumin44/DPR-KO.git
 
 - DPR 모델 학습과 검색 성능 평가에 필요한 라이브러리를 다운로드 합니다.
 - Pytorch, Transformers 등의 필수적인 라이브러리는 이미 설치되어 있다고 가정합니다.
+- (Transformers는 4.40.1 또는 그 이하 버전이 안정적입니다. 상위 버전은 파라미터 이름 관련 경고가 출력될 수 있습니다.)
 ```
 pip install -r requirements.txt
 ``` 
