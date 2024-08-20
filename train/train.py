@@ -100,7 +100,7 @@ def argument_parser():
     parser.add_argument('--eps', default=1e-8, type=float,
                         help='Epsilon for AdamW optimizer'
                        )   
-    parser.add_argument('--amp', action="store_true",
+    parser.add_argument('--amp', action="store_true", default=False,
                         help='Use Automatic Mixed Precision for training'
                        )
     parser.add_argument('--device', default = 'cuda' if torch.cuda.is_available() else 'cpu', type=str,
