@@ -352,7 +352,7 @@ def main(args):
                 LOGGER.info(f'>>> Saved Best Model (Context Encoder) at {args.c_output_path}')
                         
             # Early Stopping
-            if len(early_stop_score) == 0 or top1_acc > early_stop_score[-1]:
+            if len(early_stop_score) == 0 or top1_acc < early_stop_score[-1]:
                 early_stop_score.append(top1_acc)
                 if len(early_stop_score) == args.early_stop_epoch:break                                      
             else: early_stop_score = list() 
